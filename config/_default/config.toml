@@ -3,7 +3,7 @@
 # 请把 repo-name 换成你的仓库名 (比如 my-game-archive)
 baseURL = "https://Tiifeuille.github.io/my-game-archive/"
 languageCode = "en-us"
-title = "Digital Specimen"
+title = "亵欲纳间"
 
 # Theme i18n support
 # Available values: en, fr, id, ja, ko, pt-br, zh-cn, zh-tw, es, de, nl, it, th, el, uk, ar
