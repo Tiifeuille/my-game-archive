@@ -1,11 +1,11 @@
 /* ==========================================================================
-   1. 字体引入 (Cinzel用于标题/菜单，Noto Serif用于正文)
+   1. 字体引入
    ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&display=swap');
 
 /* ==========================================================================
-   2. 核心变量与全局背景 (深海感 + 噪点)
+   2. 核心变量与全局背景
    ========================================================================== */
 :root {
     --base-font-size: 17px;
@@ -13,33 +13,29 @@
 }
 
 body {
-    background-color: #0f172a !important; /* 深海蓝底色 */
+    background-color: #0f172a !important;
     color: #cbd5e1 !important;
-    /* 噪点纹理 */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
 /* ==========================================================================
-   3. 侧边栏 (工业风 + CRPG 典籍字体)
+   3. 侧边栏 (修复显示问题)
    ========================================================================== */
 .sidebar {
     background-color: #020617 !important;
     border-right: 1px solid #1e293b;
-    z-index: 1000; /* 保证侧边栏在篝火特效之上 */
+    z-index: 1000;
 }
 
-/* 菜单文字优化 */
 .sidebar .menu li a {
     font-family: 'Cinzel', serif !important;
-    font-size: 1.4rem !important;  
+    font-size: 1.4rem !important;
     font-weight: 700 !important;
-    letter-spacing: 0.05em;
     color: #94a3b8 !important;
     text-shadow: 0 0 5px rgba(0,0,0,0.5);
     transition: all 0.3s ease;
 }
 
-/* 鼠标悬停：火光点亮效果 */
 .sidebar .menu li a:hover {
     color: #fdba74 !important;
     text-shadow: 0 0 10px #fdba74, 0 0 20px #c2410c;
@@ -47,36 +43,45 @@ body {
 }
 
 /* ==========================================================================
-   4. 极大主义卡片 (首页列表)
+   4. 通用卡片样式 (关键修改：覆盖 Archives 和 Home)
    ========================================================================== */
-.article-list--compact article {
+/* 这里加了 .article-list--default，专门针对归档页 */
+.article-list--compact article,
+.article-list--default article,
+.archive-list article { 
     background-color: #1e293b !important;
-    border: 1px solid #334155;
+    border: 1px solid #334155 !important;
     border-radius: 0 !important;
-    box-shadow: 6px 6px 0px #000000; /* 硬阴影 */
+    box-shadow: 6px 6px 0px #000000 !important; /* 强制硬阴影 */
+    margin-bottom: 30px !important; /* 增加间距 */
+    padding: 25px !important; /* 增加内部空间 */
     transition: transform 0.2s ease;
 }
 
-/* 卡片悬停浮动 */
-.article-list--compact article:hover {
+.article-list--compact article:hover,
+.article-list--default article:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 8px 8px 0px #000000;
+    box-shadow: 8px 8px 0px #000000 !important;
 }
 
-/* 卡片内文字加大 (你之前的需求) */
-.article-list--compact article .article-preview {
-    font-size: 1.25rem !important; 
-    line-height: 1.7 !important;
-    color: rgba(255, 255, 255, 0.9) !important;
-}
-
-.article-list--compact article .article-title {
+/* 标题通用加大 */
+.article-title, 
+.archive-list .article-title {
     font-size: 1.6rem !important;
+    font-weight: 700 !important;
     margin-bottom: 15px !important;
+    font-family: var(--font-family-body);
+}
+
+/* 归档页的时间显示优化 */
+.article-date {
+    font-family: 'Cinzel', serif !important;
+    color: #94a3b8 !important;
+    font-size: 1rem !important;
 }
 
 /* ==========================================================================
-   5. 文章正文页 (沉浸阅读)
+   5. 文章正文
    ========================================================================== */
 .article-content {
     font-family: var(--font-family-body);
@@ -84,62 +89,39 @@ body {
     line-height: 2.0 !important;
     color: rgba(255, 255, 255, 0.9);
 }
-
-.article-content p {
-    margin-bottom: 1.8em !important;
-}
+.article-content p { margin-bottom: 1.8em !important; }
 
 /* ==========================================================================
-   6. 氛围特效：暗角 + 篝火 (重点部分)
+   6. 氛围特效 (暗角 + 篝火)
    ========================================================================== */
-
-/* 黑暗之魂风格：屏幕四周压暗 (Vignette) */
 body::before {
     content: "";
     position: fixed;
-    top: 0; left: 0; 
-    width: 100vw; height: 100vh;
-    /* 四周黑色，中间透明 */
+    top: 0; left: 0; width: 100vw; height: 100vh;
     background: radial-gradient(circle at center, transparent 30%, #000000 100%);
-    pointer-events: none; /* 让鼠标能穿透，不影响点击 */
-    z-index: 900; 
-    opacity: 0.7; /* 如果觉得太黑，可以把这个改小，比如 0.4 */
+    pointer-events: none;
+    z-index: 900;
+    opacity: 0.6;
 }
 
-/* 篝火呼吸动画定义 */
 @keyframes bonfire-glow {
     0%   { opacity: 0.3; transform: scaleY(1); }
     50%  { opacity: 0.5; transform: scaleY(1.1); }
     100% { opacity: 0.3; transform: scaleY(1); }
 }
 
-/* 屏幕底部的橙色光晕 (Bonfire) */
 body::after {
     content: "";
     position: fixed;
-    bottom: 0; 
-    left: 0;
-    width: 100vw;
-    height: 40vh; /* 占据屏幕下半部分 */
-    /* 橙红色渐变，模拟火光 */
-    background: linear-gradient(to top, rgba(255, 80, 0, 0.4) 0%, rgba(255, 100, 0, 0.1) 50%, transparent 100%);
+    bottom: 0; left: 0; width: 100vw; height: 40vh;
+    background: linear-gradient(to top, rgba(255, 80, 0, 0.4) 0%, transparent 100%);
     pointer-events: none;
-    z-index: 901; /* 比暗角层高一点，保证火光通透 */
-    animation: bonfire-glow 5s infinite ease-in-out; /* 呼吸特效 */
-    mix-blend-mode: screen; /* 滤色模式，让光看起来更像“光” */
+    z-index: 901;
+    animation: bonfire-glow 5s infinite ease-in-out;
+    mix-blend-mode: screen;
 }
 
-/* ==========================================================================
-   7. 滚动条 (机械感)
-   ========================================================================== */
-::-webkit-scrollbar {
-    width: 10px;
-    background-color: #0f172a;
-}
-::-webkit-scrollbar-thumb {
-    background-color: #475569;
-    border: 1px solid #1e293b;
-}
-::-webkit-scrollbar-thumb:hover {
-    background-color: #fdba74;
-}
+/* 滚动条 */
+::-webkit-scrollbar { width: 10px; background-color: #0f172a; }
+::-webkit-scrollbar-thumb { background-color: #475569; border: 1px solid #1e293b; }
+::-webkit-scrollbar-thumb:hover { background-color: #fdba74; }
