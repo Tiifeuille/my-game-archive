@@ -1,5 +1,7 @@
 # Change baseurl before deploy
-baseurl = "https://my-game-archive.vercel.app/"
+# 请把 username 换成你的 GitHub 用户名
+# 请把 repo-name 换成你的仓库名 (比如 my-game-archive)
+baseURL = "https://Tiifeuille.github.io/my-game-archive/"
 languageCode = "en-us"
 title = "Digital Specimen"
 
