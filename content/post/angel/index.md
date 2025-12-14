@@ -11,7 +11,7 @@ slug: "angel"
 image: "ANG.png"       
 
 categories:
-    - "Game Guide"
+    - "Interview"
 
 tags:
     - "Interview"
@@ -81,6 +81,7 @@ weight: 0
 
 
 「天使のたまご」の4Kリマスター版は、11月14日からドルビーシネマ限定で先行公開され、11月21日から全国で順次公開される。
+
 
 
 
