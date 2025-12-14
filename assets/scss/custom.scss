@@ -137,17 +137,27 @@ body::after {
 ::-webkit-scrollbar { width: 10px; background-color: #1e293b; }
 ::-webkit-scrollbar-thumb { background-color: #475569; }
 
-/* 主页背景音乐播放器样式 */
-.main-page-bgm-player {
-    margin: 40px auto 20px auto;
+/* 主页背景音乐播放器样式 - 悬浮在底部 */
+#fixed-bgm-player {
+    /* 核心修改：让播放器悬浮在屏幕底部 */
+    position: fixed; 
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%); /* 居中 */
+    z-index: 1000; /* 确保它在最上层 */
+    
+    /* 外观样式保持不变 */
     max-width: 600px; 
+    width: 90%; /* 确保在小屏幕上也有宽度 */
     padding: 10px;
-    background-color: #020617; /* 极深背景，强调冷峻感 */
+    background-color: #020617; 
     border: 1px solid #334155;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* 深邃阴影 */
+    border-bottom: none; /* 底部可以不显示边框 */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.9); /* 更重的阴影 */
     text-align: center;
 }
 
+/* 其他样式保持不变 */
 .bgm-title {
     color: #4ade80; /* 终端绿标题 */
     font-family: 'Consolas', monospace;
@@ -164,14 +174,10 @@ body::after {
     margin-top: 5px;
 }
 
-/* 【修复点】强制 iframe 显示并居中，确保宽度和高度生效 */
 .main-page-bgm-player iframe {
-    /* 核心修复：确保它独占一行并应用宽度 */
     display: block; 
     margin: 0 auto;
-    
     border: none;
-    height: 80px; /* 减小高度，只保留播放条 */
-    /* 强制宽度 100%，以确保它不会被主题样式清零 */
+    height: 80px; 
     width: 100% !important; 
 }
