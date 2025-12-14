@@ -1,192 +1,196 @@
 ---
-title: "情报监控"
+title: "情报网 "
 slug: "monitor"
-description: "实时追踪目标对象的加密通讯信号。"
+description: "接入全球游戏资讯加密数据流。"
 image: "hoshino1.jpg"
 menu:
     main:
         weight: -15
         params:
-            icon: activity # 换成心跳或信号图标
+            icon: activity 
 ---
 
 <div id="monitor-terminal">
     <div class="monitor-header">
         <span class="status-dot"></span> 
-        SIGNAL RECEIVING: <span id="target-count">3</span> TARGETS
+        NETWORK STATUS: <span style="color:#4ade80">ONLINE</span>
+        <span class="scan-line"></span>
     </div>
-    <div id="tweet-feed" class="loading-text">
-        正在建立加密连接...
+    
+    <div id="system-log">
+        > Initializing connection protocols...<br>
+        > Bypassing region locks...<br>
+        > Accessing Gematsu mainframe... [SUCCESS]<br>
+        > Accessing Siliconera database... [SUCCESS]<br>
+        > Stream decrypted. Rendering feed...
     </div>
+
+    <div id="tweet-feed" class="feed-container">
+        </div>
 </div>
 
 <script src="https://unpkg.com/rss-parser/dist/rss-parser.min.js"></script>
 
 <script>
-// =================配置区域=================
-// 在这里填入你想监控的推特账号 ID (不需要 @)
-const targets = [
-    'HIDEO_KOJIMA_EN',  // 小岛秀夫
-    'FromSoftware_PR',  // FromSoftware
-    'hakonemai',        // 比如某个画师
+// ================= 情报源配置 (这里换成了超稳的新闻源) =================
+const sources = [
+    { name: 'GEMATSU', url: 'https://gematsu.com/feed' },
+    { name: 'SILICONERA', url: 'https://www.siliconera.com/feed/' },
+    { name: 'EUROGAMER', url: 'https://www.eurogamer.net/?format=rss' }
 ];
+// ====================================================================
 
-// Nitter 实例列表 (如果一个挂了会自动换，这是为了稳定性)
-// 你可以在 https://status.d420.de/ 找更多活着的实例
-const nitterInstances = [
-    'https://nitter.net',
-    'https://nitter.cz',
-    'https://nitter.privacydev.net'
-];
-// =========================================
-
-// 随机选一个 Nitter 实例防止单点故障
-const nitterBase = nitterInstances[Math.floor(Math.random() * nitterInstances.length)];
-
-// 使用 rss2json API 绕过跨域限制 (因为是纯前端静态网页)
-const convertToApi = (user) => {
-    const rssUrl = `${nitterBase}/${user}/rss`;
-    return `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+const convertToApi = (url) => {
+    return `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
 };
 
-async function fetchTweets() {
+async function fetchIntel() {
     const feedContainer = document.getElementById('tweet-feed');
-    let allTweets = [];
+    let allItems = [];
 
-    // 并行抓取所有人的推文
-    const promises = targets.map(user => 
-        fetch(convertToApi(user))
+    const promises = sources.map(source => 
+        fetch(convertToApi(source.url))
             .then(res => res.json())
             .then(data => {
                 if(data.items) {
-                    // 给每条推文打上作者标签
-                    return data.items.map(item => ({...item, author: user}));
+                    return data.items.map(item => ({...item, source: source.name}));
                 }
                 return [];
             })
             .catch(err => {
-                console.error(`丢失信号: ${user}`, err);
+                console.error(`源失效: ${source.name}`, err);
                 return [];
             })
     );
 
     const results = await Promise.all(promises);
+    results.forEach(items => allItems = allItems.concat(items));
     
-    // 合并并按时间倒序排列
-    results.forEach(tweets => allTweets = allTweets.concat(tweets));
-    allTweets.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+    // 按时间倒序
+    allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
 
-    // 渲染
-    if (allTweets.length === 0) {
-        feedContainer.innerHTML = "信号丢失。请检查通讯链路或目标是否静默。";
+    // 只显示最新的 15 条情报，避免页面太长
+    const recentIntel = allItems.slice(0, 15);
+
+    if (recentIntel.length === 0) {
+        feedContainer.innerHTML = "<div class='error'>所有链路均已离线。</div>";
         return;
     }
 
-    feedContainer.innerHTML = allTweets.map(tweet => {
-        // 清理一下 Nitter RSS 里自带的图片样式，用我们自己的
-        let content = tweet.content.replace(/<img/g, '<img class="tweet-img"');
+    feedContainer.innerHTML = recentIntel.map(item => {
+        // 处理时间
+        const date = new Date(item.pubDate);
+        const timeStr = date.toLocaleTimeString('en-US', { hour12: false }) + ' PST';
         
-        // 格式化时间
-        const date = new Date(tweet.pubDate).toLocaleString();
+        // 提取第一张图片作为缩略图 (如果有)
+        const imgMatch = item.content.match(/<img[^>]+src="([^">]+)"/);
+        const imgTag = imgMatch ? `<div class="intel-img-box"><img src="${imgMatch[1]}" class="intel-img"></div>` : '';
+
+        // 清理摘要里的 HTML 标签
+        let cleanDesc = item.description.replace(/<[^>]+>/g, '').substring(0, 120) + '...';
 
         return `
-            <div class="tweet-card">
-                <div class="tweet-meta">
-                    <span class="tweet-author">@${tweet.author}</span>
-                    <span class="tweet-date">${date}</span>
+            <div class="intel-card">
+                <div class="intel-header">
+                    <span class="source-tag">[${item.source}]</span>
+                    <span class="time-tag">${timeStr}</span>
                 </div>
-                <div class="tweet-content">${content}</div>
-                <a href="${tweet.link}" target="_blank" class="tweet-link">>> SOURCE LINK</a>
+                <div class="intel-body">
+                    <a href="${item.link}" target="_blank" class="intel-title">${item.title}</a>
+                    <div class="intel-meta">
+                        ${imgTag}
+                        <div class="intel-desc">${cleanDesc}</div>
+                    </div>
+                </div>
             </div>
         `;
     }).join('');
+    
+    // 隐藏系统日志
+    setTimeout(() => {
+        document.getElementById('system-log').style.display = 'none';
+    }, 1500);
 }
 
-fetchTweets();
+fetchIntel();
 </script>
 
 <style>
-/* 这里写专门针对监控室的 CSS */
+/* 工业风 CSS 2.0 */
 #monitor-terminal {
-    background: #0f172a;
+    background: #0b1120;
     border: 1px solid #334155;
     padding: 20px;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-    font-family: 'Consolas', 'Monaco', monospace; /* 强制用等宽字体 */
+    font-family: 'Consolas', 'Monaco', monospace;
+    position: relative;
+    overflow: hidden;
 }
 
+/* 扫描线特效 */
 .monitor-header {
     border-bottom: 2px solid #334155;
-    padding-bottom: 15px;
-    margin-bottom: 20px;
-    color: #4ade80; /* 终端绿 */
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    color: #e2e8f0;
     font-weight: bold;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    position: relative;
 }
+.scan-line {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 2px;
+    background: rgba(74, 222, 128, 0.5);
+    animation: scan 3s linear infinite;
+    opacity: 0.5;
+}
+@keyframes scan { 0% {top:0} 100% {top:100%} }
 
 .status-dot {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background: #4ade80;
-    border-radius: 50%;
-    margin-right: 10px;
-    box-shadow: 0 0 5px #4ade80;
-    animation: blink 2s infinite;
+    display: inline-block; width: 8px; height: 8px;
+    background: #4ade80; border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 8px #4ade80;
+    animation: pulse 2s infinite;
 }
 
-@keyframes blink { 0% {opacity: 1;} 50% {opacity: 0.3;} 100% {opacity: 1;} }
+#system-log {
+    color: #64748b; font-size: 0.85rem; line-height: 1.5;
+    margin-bottom: 20px; font-family: monospace;
+}
 
-.tweet-card {
+/* 情报卡片 */
+.intel-card {
     background: #1e293b;
-    border-left: 3px solid #64748b;
-    padding: 15px;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
+    border-left: 3px solid #475569;
+    margin-bottom: 15px;
+    padding: 12px;
+    transition: all 0.2s;
 }
-
-.tweet-card:hover {
-    border-left-color: #fdba74; /* 悬停变橙色 */
+.intel-card:hover {
+    border-left-color: #fdba74; /* 悬停橙色 */
     background: #253045;
+    transform: translateX(5px);
 }
 
-.tweet-meta {
-    font-size: 0.85rem;
-    color: #94a3b8;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
+.intel-header {
+    font-size: 0.75rem; color: #94a3b8;
+    margin-bottom: 5px; display: flex; justify-content: space-between;
 }
+.source-tag { color: #fdba74; font-weight: bold; }
 
-.tweet-author {
-    color: #fdba74;
-    font-weight: bold;
+.intel-title {
+    color: #e2e8f0; font-weight: bold; font-size: 1.1rem;
+    text-decoration: none; display: block; margin-bottom: 8px;
 }
+.intel-title:hover { color: #4ade80; text-decoration: underline; }
 
-.tweet-content {
-    color: #e2e8f0;
-    line-height: 1.6;
-    font-size: 0.95rem;
+.intel-meta { display: flex; gap: 15px; }
+.intel-img-box { flex: 0 0 100px; height: 60px; overflow: hidden; border: 1px solid #475569; }
+.intel-img { width: 100%; height: 100%; object-fit: cover; }
+.intel-desc { font-size: 0.9rem; color: #cbd5e1; line-height: 1.4; }
+
+@media (max-width: 600px) {
+    .intel-meta { flex-direction: column; }
+    .intel-img-box { flex: 0 0 auto; height: 120px; }
 }
-
-/* 推文里的图片样式 */
-.tweet-img {
-    max-width: 100%;
-    border: 1px solid #475569;
-    margin-top: 10px;
-    opacity: 0.9;
-}
-
-.tweet-link {
-    display: block;
-    margin-top: 10px;
-    font-size: 0.8rem;
-    color: #64748b;
-    text-decoration: none;
-    text-align: right;
-}
-.tweet-link:hover { color: #4ade80; }
-
-.loading-text { color: #94a3b8; font-style: italic; }
 </style>
-
