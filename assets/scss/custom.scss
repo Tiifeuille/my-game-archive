@@ -10,7 +10,7 @@
 }
 
 /* ==========================================================================
-   2. 深海黑夜模式 (默认) - Dark Mode
+   2. 全局背景与基础颜色 (强制深色工业风)
    ========================================================================== */
 body {
     background-color: #0f172a !important; /* 深海蓝 */
@@ -18,167 +18,104 @@ body {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
-/* 黑夜卡片 */
+/* ==========================================================================
+   3. 核心卡片样式 (关键：同时覆盖首页和归档页)
+   ========================================================================== */
+/* .article-list--default article 就是控制归档页列表的 */
 .article-list--compact article,
-.article-list--default article,
+.article-list--default article, 
 .archive-list article { 
     background-color: #1e293b !important;
     border: 1px solid #334155 !important;
-    box-shadow: 6px 6px 0px #000000 !important; /* 纯黑阴影 */
-}
-
-/* 黑夜文字颜色 */
-.article-title, .archive-list .article-title { color: #f1f5f9 !important; }
-.article-content { color: rgba(255, 255, 255, 0.9) !important; }
-
-/* 黑夜侧边栏 */
-.sidebar { background-color: #020617 !important; border-right: 1px solid #1e293b; }
-.sidebar .menu li a { color: #94a3b8 !important; }
-
-/* 篝火特效 (只在黑夜显示) */
-body::after {
-    content: ""; position: fixed; bottom: 0; left: 0; width: 100vw; height: 40vh;
-    background: linear-gradient(to top, rgba(255, 80, 0, 0.4) 0%, transparent 100%);
-    pointer-events: none; z-index: 901;
-    animation: bonfire-glow 5s infinite ease-in-out;
-    mix-blend-mode: screen;
-    display: block; /* 默认显示 */
-}
-
-/* ==========================================================================
-   3. 工业白昼模式 (Light Mode) - 只有切换到亮色时生效
-   ========================================================================== */
-[data-scheme="light"] body {
-    background-color: #e2e8f0 !important; /* 混凝土灰 */
-    color: #334155 !important;
-    /* 浅色噪点 */
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E") !important;
-}
-
-/* 白昼卡片：纯白底 + 深灰硬阴影 */
-[data-scheme="light"] .article-list--compact article,
-[data-scheme="light"] .article-list--default article,
-[data-scheme="light"] .archive-list article { 
-    background-color: #ffffff !important;
-    border: 1px solid #94a3b8 !important;
-    box-shadow: 6px 6px 0px #475569 !important; /* 深灰阴影，更有纸张感 */
-}
-
-/* 白昼文字 */
-[data-scheme="light"] .article-title, 
-[data-scheme="light"] .archive-list .article-title { 
-    color: #0f172a !important; /* 深蓝黑 */
-}
-[data-scheme="light"] .article-content { 
-    color: #334155 !important; 
-}
-[data-scheme="light"] .article-preview {
-    color: #475569 !important;
-}
-
-/* 白昼侧边栏 */
-[data-scheme="light"] .sidebar { 
-    background-color: #f1f5f9 !important; 
-    border-right: 1px solid #cbd5e1; 
-}
-[data-scheme="light"] .sidebar .menu li a { 
-    color: #64748b !important; 
-    text-shadow: none !important; /* 白天不需要发光文字 */
-}
-[data-scheme="light"] .sidebar .menu li a:hover {
-    color: #000000 !important;
-    text-shadow: 0 0 1px #000000 !important;
-}
-
-/* 白昼隐藏篝火 (白天哪里看得到火？) */
-[data-scheme="light"] body::after {
-    display: none !important;
-}
-/* 白昼减弱暗角 */
-[data-scheme="light"] body::before {
-    opacity: 0.2 !important;
-}
-
-/* ==========================================================================
-   4. 通用样式 (排版、动画)
-   ========================================================================== */
-.article-list--compact article, .article-list--default article, .archive-list article {
     border-radius: 0 !important;
+    box-shadow: 6px 6px 0px #000000 !important; /* 强制硬阴影 */
     margin-bottom: 30px !important;
     padding: 25px !important;
     transition: transform 0.2s ease;
 }
-.article-list--compact article:hover, .article-list--default article:hover {
+
+.article-list--compact article:hover,
+.article-list--default article:hover {
     transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px #000000 !important;
 }
 
-.article-title, .archive-list .article-title {
+/* 标题通用加大 */
+.article-title, 
+.archive-list .article-title {
     font-size: 1.6rem !important;
     font-weight: 700 !important;
     margin-bottom: 15px !important;
     font-family: var(--font-family-body);
+    color: #f1f5f9 !important;
+}
+
+/* 归档页的时间显示优化 */
+.article-date {
+    font-family: 'Cinzel', serif !important;
+    color: #94a3b8 !important;
+    font-size: 1rem !important;
+}
+
+/* ==========================================================================
+   4. 侧边栏 (修复显示问题)
+   ========================================================================== */
+.sidebar {
+    background-color: #020617 !important;
+    border-right: 1px solid #1e293b;
+    z-index: 1000;
 }
 
 .sidebar .menu li a {
     font-family: 'Cinzel', serif !important;
     font-size: 1.4rem !important;
     font-weight: 700 !important;
+    color: #94a3b8 !important;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
     transition: all 0.3s ease;
 }
 
-/* 篝火动画定义 */
+.sidebar .menu li a:hover {
+    color: #fdba74 !important;
+    text-shadow: 0 0 10px #fdba74, 0 0 20px #c2410c;
+    padding-left: 10px;
+}
+/* 隐藏底部的 Dark Mode 切换开关，强制保持深色 */
+.sidebar-footer {
+    display: none !important;
+}
+
+/* ==========================================================================
+   5. 氛围特效 (暗角 + 篝火)
+   ========================================================================== */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: radial-gradient(circle at center, transparent 30%, #000000 100%);
+    pointer-events: none;
+    z-index: 900;
+    opacity: 0.6;
+}
+
 @keyframes bonfire-glow {
     0%   { opacity: 0.3; transform: scaleY(1); }
     50%  { opacity: 0.5; transform: scaleY(1.1); }
     100% { opacity: 0.3; transform: scaleY(1); }
 }
 
+body::after {
+    content: "";
+    position: fixed;
+    bottom: 0; left: 0; width: 100vw; height: 40vh;
+    background: linear-gradient(to top, rgba(255, 80, 0, 0.4) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 901;
+    animation: bonfire-glow 5s infinite ease-in-out;
+    mix-blend-mode: screen;
+}
+
 /* 滚动条 */
-::-webkit-scrollbar { width: 10px; background-color: #1e293b; }
-::-webkit-scrollbar-thumb { background-color: #475569; }
-
-/* ==========================================================================
-   主页背景音乐播放器样式 (悬浮在底部)
-   ========================================================================== */
-#fixed-bgm-player {
-    /* 核心修改：让播放器悬浮在屏幕底部 */
-    position: fixed; 
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%); /* 居中 */
-    z-index: 1000; /* 确保它在最上层 */
-    
-    /* 外观样式 */
-    max-width: 600px; 
-    width: 90%; 
-    padding: 10px;
-    background-color: #020617; 
-    border: 1px solid #334155;
-    border-bottom: none; 
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.9); 
-    text-align: center;
-}
-
-.bgm-title {
-    color: #4ade80; /* 终端绿标题 */
-    font-family: 'Consolas', monospace;
-    font-size: 1rem;
-    margin-bottom: 5px;
-    letter-spacing: 2px;
-    border-bottom: 1px dashed #334155;
-    padding-bottom: 5px;
-}
-
-.bgm-note {
-    font-size: 0.75rem;
-    color: #64748b;
-    margin-top: 5px;
-}
-
-.main-page-bgm-player iframe {
-    display: block; 
-    margin: 0 auto;
-    border: none;
-    height: 80px; 
-    width: 100% !important; 
-}
+::-webkit-scrollbar { width: 10px; background-color: #0f172a; }
+::-webkit-scrollbar-thumb { background-color: #475569; border: 1px solid #1e293b; }
+::-webkit-scrollbar-thumb:hover { background-color: #fdba74; }
