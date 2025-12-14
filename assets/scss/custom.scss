@@ -25,3 +25,29 @@ h1, h2, h3, .article-title {
     font-family: 'Times New Roman', 'Songti SC', serif;
     letter-spacing: 0.05em;
 }
+/* --- 布局优化：拒绝拥挤 --- */
+
+/* 1. 放大整体文字 */
+html {
+    font-size: 17px; /* 默认是16px，稍微调大一点点，阅读更舒服 */
+}
+
+/* 2. 侧边栏菜单优化 */
+.sidebar .menu li a {
+    font-size: 1.15rem; /* 菜单字号加大 */
+    padding: 12px 0;    /* 拉大菜单项之间的距离，不让它们挤在一起 */
+}
+
+/* 3. 文章卡片“呼吸感”调整 */
+.article-list--compact {
+    gap: 35px !important; /* 关键：拉大卡片与卡片之间的间距 */
+}
+
+.article-wrapper {
+    padding: 35px !important; /* 卡片内部留白更多，更有“画廊”的高级感 */
+}
+
+/* 4. 右侧小部件（分类、标签）的间距 */
+.widget {
+    margin-bottom: 30px !important; /* 让右边的方框之间也离得远一点 */
+}

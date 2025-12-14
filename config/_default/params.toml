@@ -17,9 +17,9 @@ emoji = "📼"
 subtitle = "Tiffany的各类私货存档点"
 
 [sidebar.avatar]
-enabled = true
-local = true
-src = "hoshino1.png"
+    enabled = true
+    local = true
+    src = "hoshino1.png"
 
 [article]
 headingAnchor = false

@@ -2,7 +2,7 @@
 title: "Elden Ring: Shadow of the Erdtree"
 date: 2025-12-14
 description: "和hoshino打完老头环"
-image: "hoshino1.jpg"  # 封面图文件名，你需要把图片放在 static 文件夹或同级目录下
+image: "img/hoshino1.jpg"  # 封面图文件名，你需要把图片放在 static 文件夹或同级目录下
 categories:
     - "Action RPG"
 tags:
