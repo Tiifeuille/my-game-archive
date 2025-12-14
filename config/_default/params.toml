@@ -80,10 +80,10 @@ enabled = true
     provider = "giscus"
 
 [comments.giscus]
-    repo = "leafwa/my-game-archive"  
-    repoID = "你可以先不填，报错了再去 giscus.app 生成"
+    repo = "Tiifeuille/my-game-archive"  
+    repoID = "R_kgDOQoZfgw"
     category = "Announcements" 
-    categoryID = "" 
+    categoryID = "DIC_kwDOQoZfg84Czxqd" 
     mapping = "pathname"
     reactionsEnabled = 1
     emitMetadata = 0
