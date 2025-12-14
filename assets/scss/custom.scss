@@ -116,3 +116,78 @@ h1, h2, h3, .article-title {
 .article-content p {
     margin-bottom: 1.8em !important;
 }
+/* ==========================================================================
+   1. 侧边栏菜单：CRPG 典籍风格
+   ========================================================================== */
+/* 引入 Cinzel 字体 (非常有 CRPG/魂系游戏标题的史诗感) */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap');
+
+.sidebar .menu li a {
+    font-family: 'Cinzel', serif !important; /* 换成更有味道的字体 */
+    font-size: 1.5rem !important;          /* 加大字号 (原先太小了) */
+    font-weight: 700 !important;           /* 加粗 */
+    letter-spacing: 0.05em;                /* 字间距稍微拉开，更有呼吸感 */
+    color: #94a3b8 !important;             /* 默认是冷灰 */
+    transition: all 0.3s ease;             /* 平滑过渡 */
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);  /* 文字加一点阴影，像刻在石头上 */
+}
+
+/* 鼠标悬停时：变成“被篝火照亮”的橘金色 */
+.sidebar .menu li a:hover {
+    color: #fdba74 !important;             /* 琥珀色/火光色 */
+    text-shadow: 0 0 10px #fdba74, 0 0 20px #c2410c; /* 发光效果 */
+    padding-left: 10px;                    /* 悬停时轻微右移 */
+}
+
+/* ==========================================================================
+   2. 全局氛围：CRPG 沉浸式暗角 + 篝火光晕
+   ========================================================================== */
+
+/* 这一层是“暗角 (Vignette)”，模拟老旧显示器或地牢视野，压暗四周 */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* 四周黑色渐变，中间透明 */
+    background: radial-gradient(circle at center, transparent 40%, #000000 100%);
+    pointer-events: none; /* 让鼠标能穿透这个层 */
+    z-index: 998;         /* 放在内容之上 */
+    opacity: 0.6;         /* 浓度，可自行调整 */
+}
+
+/* 这一层是“篝火 (Bonfire)”，屏幕底部的暖色呼吸灯效 */
+@keyframes bonfire-flicker {
+    0%   { opacity: 0.15; transform: scale(1); }
+    50%  { opacity: 0.25; transform: scale(1.05); } /* 忽明忽暗 */
+    100% { opacity: 0.15; transform: scale(1); }
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    bottom: -10%; /* 光源在屏幕下方外面 */
+    left: 0;
+    width: 100%;
+    height: 50vh; /* 占据下半屏 */
+    /* 暖橙色渐变，模拟火光映照 */
+    background: radial-gradient(ellipse at center bottom, rgba(255, 100, 0, 0.25) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 999;
+    animation: bonfire-flicker 6s infinite ease-in-out; /* 6秒一次的呼吸律动 */
+    mix-blend-mode: screen; /* 混合模式，让光更加通透 */
+}
+
+/* ==========================================================================
+   3. 细节微调：滚动条样式 (更符合工业/机械感)
+   ========================================================================== */
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #334155;
+    border: 1px solid #475569;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #fdba74; /* 悬停时变亮橙色 */
+}
