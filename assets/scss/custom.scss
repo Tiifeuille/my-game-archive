@@ -1,3 +1,27 @@
-/*
-    You can add your own custom styles here.
-*/
+/* 全局背景：深海蓝灰 + 噪点质感 */
+body {
+    background-color: #0f172a; 
+    color: #cbd5e1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* 侧边栏：更深的工业灰 */
+.sidebar {
+    background-color: #020617;
+    border-right: 1px solid #1e293b;
+}
+
+/* 文章卡片：去掉圆角，增加硬朗边框 */
+.article-list--compact article, 
+.article-wrapper {
+    background-color: #1e293b !important;
+    border: 1px solid #334155;
+    border-radius: 0 !important; /* 极大主义：拒绝圆滑 */
+    box-shadow: 6px 6px 0px #020617; /* 硬阴影 */
+}
+
+/* 字体优化：标题使用衬线体，增加庄重感 */
+h1, h2, h3, .article-title {
+    font-family: 'Times New Roman', 'Songti SC', serif;
+    letter-spacing: 0.05em;
+}
