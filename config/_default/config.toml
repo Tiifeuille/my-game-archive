@@ -1,54 +1,33 @@
-# Change baseurl before deploy
-# 请把 username 换成你的 GitHub 用户名
-# 请把 repo-name 换成你的仓库名 (比如 my-game-archive)
-baseURL = "https://Tiifeuille.github.io/my-game-archive/"
-languageCode = "en-us"
-title = "亵欲纳间"
-
-# Theme i18n support
-# Available values: en, fr, id, ja, ko, pt-br, zh-cn, zh-tw, es, de, nl, it, th, el, uk, ar
-defaultContentLanguage = "en"
-
-# Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]
-# This will make .Summary and .WordCount behave correctly for CJK languages.
-hasCJKLanguage = false
-
-# Change it to your Disqus shortname before using
-disqusShortname = "hugo-theme-stack"
-
-[pagination]
-pagerSize = 5
-
 # ==========================================================================
-# 菜单配置 (确保 Home 和其他所有链接正常显示)
+# 菜单配置 (已调整权重以实现用户期望的顺序)
 # ==========================================================================
 [menu]
   [[menu.main]]
     identifier = "home"
-    name = "Home"
+    name = "HOME" # 保持大写以匹配你的截图风格
     url = "/"
-    weight = 1 # 确保 Home 在第一个位置
-    
-  [[menu.main]]
-    identifier = "guestbook"
-    name = "留言板"
-    url = "/guestbook/"
-    weight = 10
+    weight = 1 # 第一位
     
   [[menu.main]]
     identifier = "links"
     name = "常用链接"
     url = "/links/"
-    weight = 20
+    weight = 10 # 第二位
     
   [[menu.main]]
     identifier = "archives"
     name = "ARCHIVES"
     url = "/archives/"
-    weight = 30
+    weight = 20 # 第三位
+    
+  [[menu.main]]
+    identifier = "guestbook"
+    name = "留言板"
+    url = "/guestbook/"
+    weight = 30 # 第四位
     
   [[menu.main]]
     identifier = "search"
     name = "SEARCH"
     url = "/search/"
-    weight = 40
+    weight = 40 # 第五位
