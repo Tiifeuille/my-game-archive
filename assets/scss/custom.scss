@@ -1,193 +1,145 @@
-/* 1. 必须放在第一行：引入 Noto Serif SC (思源宋体) */
+/* ==========================================================================
+   1. 字体引入 (Cinzel用于标题/菜单，Noto Serif用于正文)
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&display=swap');
 
-/* 2. 核心变量设置 */
+/* ==========================================================================
+   2. 核心变量与全局背景 (深海感 + 噪点)
+   ========================================================================== */
 :root {
-    --base-font-size: 17px; /* 基础字号 */
-    /* 字体栈优化：优先使用 Noto Serif，其次是 Mac 宋体，再次是 Win 宋体 (SimSun) */
-    --font-family-body: 'Noto Serif SC', 'Songti SC', 'SimSun', serif; 
+    --base-font-size: 17px;
+    --font-family-body: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
 }
 
-/* 3. 全局背景：深海蓝灰 + 噪点质感 */
 body {
-    background-color: #0f172a !important; 
+    background-color: #0f172a !important; /* 深海蓝底色 */
     color: #cbd5e1 !important;
-    /* 你的噪点纹理 */
+    /* 噪点纹理 */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
-/* 4. 侧边栏：极简工业风 */
+/* ==========================================================================
+   3. 侧边栏 (工业风 + CRPG 典籍字体)
+   ========================================================================== */
 .sidebar {
     background-color: #020617 !important;
     border-right: 1px solid #1e293b;
+    z-index: 1000; /* 保证侧边栏在篝火特效之上 */
 }
 
-/* 侧边栏菜单优化 */
+/* 菜单文字优化 */
 .sidebar .menu li a {
-    font-size: 1.15rem;
-    padding: 12px 0;
-    font-family: var(--font-family-body); /* 确保菜单也用衬线体 */
+    font-family: 'Cinzel', serif !important;
+    font-size: 1.4rem !important;  
+    font-weight: 700 !important;
+    letter-spacing: 0.05em;
+    color: #94a3b8 !important;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
 }
 
-/* 调整侧边栏宽度 */
-@media (min-width: 1024px) {
-    .sidebar {
-        --sidebar-width: 320px; /* 稍微加宽一点，更大气 */
-    }
+/* 鼠标悬停：火光点亮效果 */
+.sidebar .menu li a:hover {
+    color: #fdba74 !important;
+    text-shadow: 0 0 10px #fdba74, 0 0 20px #c2410c;
+    padding-left: 10px;
 }
 
-/* 5. 极大主义文章卡片 */
-.article-list--compact article, 
-.article-wrapper {
+/* ==========================================================================
+   4. 极大主义卡片 (首页列表)
+   ========================================================================== */
+.article-list--compact article {
     background-color: #1e293b !important;
     border: 1px solid #334155;
-    border-radius: 0 !important; /* 拒绝圆滑 */
-    box-shadow: 6px 6px 0px #000000; /* 纯黑硬阴影，更硬核 */
-    transition: transform 0.2s ease; /* 加个微小的交互动效 */
+    border-radius: 0 !important;
+    box-shadow: 6px 6px 0px #000000; /* 硬阴影 */
+    transition: transform 0.2s ease;
 }
 
-/* 鼠标悬停时的小交互：卡片轻微上浮，增加机械感 */
+/* 卡片悬停浮动 */
 .article-list--compact article:hover {
     transform: translate(-2px, -2px);
     box-shadow: 8px 8px 0px #000000;
 }
 
-/* 6. 字体排印：庄重感 */
-h1, h2, h3, .article-title {
-    font-family: var(--font-family-body); /* 统一使用定义的衬线体 */
-    letter-spacing: 0.05em;
-    font-weight: 700; /* 标题加粗 */
-}
-
-/* 文章正文优化 */
-.article-content {
-    font-family: var(--font-family-body);
-    font-size: 1.1rem; 
-    line-height: 1.9;  /* 进一步增加行高，适合长文阅读 */
-    color: rgba(255, 255, 255, 0.85);
-}
-
-/* 7. 布局间距 (Space is Luxury) */
-.article-list--compact {
-    gap: 40px !important;
-}
-
-.article-wrapper {
-    padding: 40px !important;
-}
-
-.widget {
-    margin-bottom: 30px !important;
-    border: 1px solid #334155; /* 让右侧小部件也有边框 */
-    border-radius: 0 !important;
-    background-color: #1e293b !important;
-}
-/* =========================================
-   修正：针对首页列表卡片的字体 (你截图里的那部分)
-   ========================================= */
+/* 卡片内文字加大 (你之前的需求) */
 .article-list--compact article .article-preview {
-    /* 直接给到 22px 左右，极大主义就是要大 */
-    font-size: 1.35rem !important; 
-    line-height: 1.8 !important;
-    /* 稍微加粗一点点，增加“油画般”的厚度感 */
-    font-weight: 400; 
-    /* 增加文字颜色不透明度，让字更亮更实 */
-    color: rgba(255, 255, 255, 0.95) !important;
+    font-size: 1.25rem !important; 
+    line-height: 1.7 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
 }
 
-/* 修正：首页卡片的标题 */
 .article-list--compact article .article-title {
-    font-size: 1.8rem !important; /* 标题也要同步加大 */
+    font-size: 1.6rem !important;
     margin-bottom: 15px !important;
 }
 
-/* =========================================
-   修正：针对文章详情页正文 (点进去之后)
-   ========================================= */
+/* ==========================================================================
+   5. 文章正文页 (沉浸阅读)
+   ========================================================================== */
 .article-content {
-    /* 删除了你原本代码中间重复定义的 section 6，统一在这里 */
     font-family: var(--font-family-body);
-    font-size: 1.4rem !important; /* 正文阅读字号加大 */
-    line-height: 2.0 !important;   /* 行间距拉大，呼吸感 */
+    font-size: 1.35rem !important;
+    line-height: 2.0 !important;
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* 修正：把文章里的段落间距也拉大，更有块面感 */
 .article-content p {
     margin-bottom: 1.8em !important;
 }
-/* ==========================================================================
-   1. 侧边栏菜单：CRPG 典籍风格
-   ========================================================================== */
-/* 引入 Cinzel 字体 (非常有 CRPG/魂系游戏标题的史诗感) */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap');
-
-.sidebar .menu li a {
-    font-family: 'Cinzel', serif !important; /* 换成更有味道的字体 */
-    font-size: 1.5rem !important;          /* 加大字号 (原先太小了) */
-    font-weight: 700 !important;           /* 加粗 */
-    letter-spacing: 0.05em;                /* 字间距稍微拉开，更有呼吸感 */
-    color: #94a3b8 !important;             /* 默认是冷灰 */
-    transition: all 0.3s ease;             /* 平滑过渡 */
-    text-shadow: 0 0 5px rgba(0,0,0,0.5);  /* 文字加一点阴影，像刻在石头上 */
-}
-
-/* 鼠标悬停时：变成“被篝火照亮”的橘金色 */
-.sidebar .menu li a:hover {
-    color: #fdba74 !important;             /* 琥珀色/火光色 */
-    text-shadow: 0 0 10px #fdba74, 0 0 20px #c2410c; /* 发光效果 */
-    padding-left: 10px;                    /* 悬停时轻微右移 */
-}
 
 /* ==========================================================================
-   2. 全局氛围：CRPG 沉浸式暗角 + 篝火光晕
+   6. 氛围特效：暗角 + 篝火 (重点部分)
    ========================================================================== */
 
-/* 这一层是“暗角 (Vignette)”，模拟老旧显示器或地牢视野，压暗四周 */
+/* 黑暗之魂风格：屏幕四周压暗 (Vignette) */
 body::before {
     content: "";
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    /* 四周黑色渐变，中间透明 */
-    background: radial-gradient(circle at center, transparent 40%, #000000 100%);
-    pointer-events: none; /* 让鼠标能穿透这个层 */
-    z-index: 998;         /* 放在内容之上 */
-    opacity: 0.6;         /* 浓度，可自行调整 */
+    top: 0; left: 0; 
+    width: 100vw; height: 100vh;
+    /* 四周黑色，中间透明 */
+    background: radial-gradient(circle at center, transparent 30%, #000000 100%);
+    pointer-events: none; /* 让鼠标能穿透，不影响点击 */
+    z-index: 900; 
+    opacity: 0.7; /* 如果觉得太黑，可以把这个改小，比如 0.4 */
 }
 
-/* 这一层是“篝火 (Bonfire)”，屏幕底部的暖色呼吸灯效 */
-@keyframes bonfire-flicker {
-    0%   { opacity: 0.15; transform: scale(1); }
-    50%  { opacity: 0.25; transform: scale(1.05); } /* 忽明忽暗 */
-    100% { opacity: 0.15; transform: scale(1); }
+/* 篝火呼吸动画定义 */
+@keyframes bonfire-glow {
+    0%   { opacity: 0.3; transform: scaleY(1); }
+    50%  { opacity: 0.5; transform: scaleY(1.1); }
+    100% { opacity: 0.3; transform: scaleY(1); }
 }
 
+/* 屏幕底部的橙色光晕 (Bonfire) */
 body::after {
     content: "";
     position: fixed;
-    bottom: -10%; /* 光源在屏幕下方外面 */
+    bottom: 0; 
     left: 0;
-    width: 100%;
-    height: 50vh; /* 占据下半屏 */
-    /* 暖橙色渐变，模拟火光映照 */
-    background: radial-gradient(ellipse at center bottom, rgba(255, 100, 0, 0.25) 0%, transparent 70%);
+    width: 100vw;
+    height: 40vh; /* 占据屏幕下半部分 */
+    /* 橙红色渐变，模拟火光 */
+    background: linear-gradient(to top, rgba(255, 80, 0, 0.4) 0%, rgba(255, 100, 0, 0.1) 50%, transparent 100%);
     pointer-events: none;
-    z-index: 999;
-    animation: bonfire-flicker 6s infinite ease-in-out; /* 6秒一次的呼吸律动 */
-    mix-blend-mode: screen; /* 混合模式，让光更加通透 */
+    z-index: 901; /* 比暗角层高一点，保证火光通透 */
+    animation: bonfire-glow 5s infinite ease-in-out; /* 呼吸特效 */
+    mix-blend-mode: screen; /* 滤色模式，让光看起来更像“光” */
 }
 
 /* ==========================================================================
-   3. 细节微调：滚动条样式 (更符合工业/机械感)
+   7. 滚动条 (机械感)
    ========================================================================== */
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
     background-color: #0f172a;
 }
 ::-webkit-scrollbar-thumb {
-    background-color: #334155;
-    border: 1px solid #475569;
+    background-color: #475569;
+    border: 1px solid #1e293b;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #fdba74; /* 悬停时变亮橙色 */
+    background-color: #fdba74;
 }
