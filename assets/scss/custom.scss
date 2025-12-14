@@ -1,53 +1,84 @@
-/* 全局背景：深海蓝灰 + 噪点质感 */
+/* 1. 必须放在第一行：引入 Noto Serif SC (思源宋体) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&display=swap');
+
+/* 2. 核心变量设置 */
+:root {
+    --base-font-size: 17px; /* 基础字号 */
+    /* 字体栈优化：优先使用 Noto Serif，其次是 Mac 宋体，再次是 Win 宋体 (SimSun) */
+    --font-family-body: 'Noto Serif SC', 'Songti SC', 'SimSun', serif; 
+}
+
+/* 3. 全局背景：深海蓝灰 + 噪点质感 */
 body {
-    background-color: #0f172a; 
-    color: #cbd5e1;
+    background-color: #0f172a !important; 
+    color: #cbd5e1 !important;
+    /* 你的噪点纹理 */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
 }
 
-/* 侧边栏：更深的工业灰 */
+/* 4. 侧边栏：极简工业风 */
 .sidebar {
-    background-color: #020617;
+    background-color: #020617 !important;
     border-right: 1px solid #1e293b;
 }
 
-/* 文章卡片：去掉圆角，增加硬朗边框 */
+/* 侧边栏菜单优化 */
+.sidebar .menu li a {
+    font-size: 1.15rem;
+    padding: 12px 0;
+    font-family: var(--font-family-body); /* 确保菜单也用衬线体 */
+}
+
+/* 调整侧边栏宽度 */
+@media (min-width: 1024px) {
+    .sidebar {
+        --sidebar-width: 320px; /* 稍微加宽一点，更大气 */
+    }
+}
+
+/* 5. 极大主义文章卡片 */
 .article-list--compact article, 
 .article-wrapper {
     background-color: #1e293b !important;
     border: 1px solid #334155;
-    border-radius: 0 !important; /* 极大主义：拒绝圆滑 */
-    box-shadow: 6px 6px 0px #020617; /* 硬阴影 */
+    border-radius: 0 !important; /* 拒绝圆滑 */
+    box-shadow: 6px 6px 0px #000000; /* 纯黑硬阴影，更硬核 */
+    transition: transform 0.2s ease; /* 加个微小的交互动效 */
 }
 
-/* 字体优化：标题使用衬线体，增加庄重感 */
+/* 鼠标悬停时的小交互：卡片轻微上浮，增加机械感 */
+.article-list--compact article:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px #000000;
+}
+
+/* 6. 字体排印：庄重感 */
 h1, h2, h3, .article-title {
-    font-family: 'Times New Roman', 'Songti SC', serif;
+    font-family: var(--font-family-body); /* 统一使用定义的衬线体 */
     letter-spacing: 0.05em;
-}
-/* --- 布局优化：拒绝拥挤 --- */
-
-/* 1. 放大整体文字 */
-html {
-    font-size: 17px; /* 默认是16px，稍微调大一点点，阅读更舒服 */
+    font-weight: 700; /* 标题加粗 */
 }
 
-/* 2. 侧边栏菜单优化 */
-.sidebar .menu li a {
-    font-size: 1.15rem; /* 菜单字号加大 */
-    padding: 12px 0;    /* 拉大菜单项之间的距离，不让它们挤在一起 */
+/* 文章正文优化 */
+.article-content {
+    font-family: var(--font-family-body);
+    font-size: 1.1rem; 
+    line-height: 1.9;  /* 进一步增加行高，适合长文阅读 */
+    color: rgba(255, 255, 255, 0.85);
 }
 
-/* 3. 文章卡片“呼吸感”调整 */
+/* 7. 布局间距 (Space is Luxury) */
 .article-list--compact {
-    gap: 35px !important; /* 关键：拉大卡片与卡片之间的间距 */
+    gap: 40px !important;
 }
 
 .article-wrapper {
-    padding: 35px !important; /* 卡片内部留白更多，更有“画廊”的高级感 */
+    padding: 40px !important;
 }
 
-/* 4. 右侧小部件（分类、标签）的间距 */
 .widget {
-    margin-bottom: 30px !important; /* 让右边的方框之间也离得远一点 */
+    margin-bottom: 30px !important;
+    border: 1px solid #334155; /* 让右侧小部件也有边框 */
+    border-radius: 0 !important;
+    background-color: #1e293b !important;
 }

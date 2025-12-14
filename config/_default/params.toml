@@ -19,7 +19,7 @@ subtitle = "Tiffany的各类私货存档点"
 [sidebar.avatar]
     enabled = true
     local = false
-    src = "hoshino1.png"
+    src = "/hoshino1.png"
 
 [article]
 headingAnchor = false
