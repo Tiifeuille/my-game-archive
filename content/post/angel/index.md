@@ -24,18 +24,9 @@ weight: 0
 
 　---
 "「天使のたまご」40周年記念インタビュー"
-description: "『天使のたまご 4Kリマスター』 復活上映&40周年記念インタビュー"
-date: 2025-12-14
-slug: "angel"
-image: "angel.jpg"
-categories:
-    - "Game Guide"
-tags:
-    - "Interview"
-weight: 0
+
 ---
 
-(angel.png)
 
 ### ◇生殖と切り離された永遠の少女
 #### ーー「天使のたまご」を見返すこともある？
