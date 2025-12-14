@@ -4,30 +4,26 @@
 [menu]
   [[menu.main]]
     identifier = "home"
-    name = "HOME" # 保持大写以匹配你的截图风格
+    name = "HOME"
     url = "/"
-    weight = 1 # 第一位
-    
+    weight = 1
   [[menu.main]]
     identifier = "links"
     name = "常用链接"
     url = "/links/"
-    weight = 10 # 第二位
-    
+    weight = 10
   [[menu.main]]
     identifier = "archives"
     name = "ARCHIVES"
     url = "/archives/"
-    weight = 20 # 第三位
-    
+    weight = 20
   [[menu.main]]
     identifier = "guestbook"
     name = "留言板"
     url = "/guestbook/"
-    weight = 30 # 第四位
-    
+    weight = 30
   [[menu.main]]
     identifier = "search"
     name = "SEARCH"
     url = "/search/"
-    weight = 40 # 第五位
+    weight = 40

@@ -1,13 +1,5 @@
 ---
-# 菜单定义 (确保 Home 菜单不消失)
-menu:
-    main:
-        name: Home
-        weight: 1
-        params:
-            icon: home
-        # 如果需要，取消注释这行：
-        # url: / 
+# 确保这里没有 menu:
 --- 
 
 {{< rawhtml >}}
