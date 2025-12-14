@@ -82,3 +82,17 @@ h1, h2, h3, .article-title {
     border-radius: 0 !important;
     background-color: #1e293b !important;
 }
+/* 调整正文字体大小 */
+.article-content {
+    font-size: 1.25rem !important; /* 原版大概是1rem，这里加大到1.25倍 */
+    line-height: 1.8 !important;   /* 增加行高，让文字不那么挤 */
+}
+
+/* 调整摘要（首页列表）字体大小 */
+.article-list .article-title {
+    font-size: 1.5rem !important;
+}
+
+.article-list .article-preview {
+    font-size: 1.1rem !important;
+}
