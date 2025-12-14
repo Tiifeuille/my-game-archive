@@ -8,7 +8,7 @@ date: 2025-12-14
 
 slug: "SAGA"
 
-image: "saga-em.png"       
+image: "saga-em.jpg"       
 
 categories:
     - "Game Guide"
