@@ -1,144 +1,42 @@
 /* ==========================================================================
-   1. 字体引入
+   强制重置一些样式以确保主题编译成功
    ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&display=swap');
 
+/* 1. 强制隐藏模式切换按钮 */
+.theme-toggle {
+    display: none !important;
+}
+
+/* 2. 侧边栏基础颜色，防止样式丢失 */
+.sidebar { 
+    background-color: #f1f5f9 !important; 
+    border-right: 1px solid #cbd5e1; 
+}
+
+/* 3. 字体配置 */
 :root {
     --base-font-size: 17px;
     --font-family-body: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
 }
 
-/* ==========================================================================
-   2. 工业白昼模式 (Light Mode) - 设为默认模式
-   ========================================================================== */
+/* 4. 恢复卡片和背景的样式 */
 body {
-    background-color: #e2e8f0 !important; /* 混凝土灰 */
+    background-color: #e2e8f0 !important;
     color: #334155 !important;
-    /* 浅色噪点 */
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E") !important;
 }
-
-/* 卡片：纯白底 + 深灰硬阴影 */
-.article-list--compact article,
-.article-list--default article,
-.archive-list article { 
+.article-list--compact article { 
     background-color: #ffffff !important;
-    border: 1px solid #94a3b8 !important;
-    box-shadow: 6px 6px 0px #475569 !important; /* 深灰阴影，更有纸张感 */
+    box-shadow: 6px 6px 0px #475569 !important;
 }
 
-/* 文字 */
-.article-title, 
-.archive-list .article-title { 
-    color: #0f172a !important; /* 深蓝黑 */
-}
-.article-content { 
-    color: #334155 !important; 
-}
-.article-preview {
-    color: #475569 !important;
-}
-
-/* 侧边栏 */
-.sidebar { 
-    background-color: #f1f5f9 !important; 
-    border-right: 1px solid #cbd5e1; 
-}
-.sidebar .menu li a { 
-    color: #64748b !important; 
-    text-shadow: none !important; 
-}
-.sidebar .menu li a:hover {
-    color: #000000 !important;
-    text-shadow: 0 0 1px #000000 !important;
-}
-
-/* 隐藏不必要的特效 */
-body::after {
-    display: none !important;
-}
-body::before {
-    opacity: 0.2 !important;
-}
-
-/* 隐藏模式切换按钮 */
-.theme-toggle {
-    display: none !important;
-}
-
-/* ==========================================================================
-   3. 通用样式 & BGM 播放器 (已修正语法错误)
-   ========================================================================== */
-.article-list--compact article, .article-list--default article, .archive-list article {
-    border-radius: 0 !important;
-    margin-bottom: 30px !important;
-    padding: 25px !important;
-    transition: transform 0.2s ease;
-}
-.article-list--compact article:hover, .article-list--default article:hover {
-    transform: translate(-2px, -2px);
-}
-
-.article-title, .archive-list .article-title {
-    font-size: 1.6rem !important;
-    font-weight: 700 !important;
-    margin-bottom: 15px !important;
-    font-family: var(--font-family-body);
-}
-
-.sidebar .menu li a {
-    font-family: 'Cinzel', serif !important;
-    font-size: 1.4rem !important;
-    font-weight: 700 !important;
-    transition: all 0.3s ease;
-}
-
-/* 滚动条 */
-::-webkit-scrollbar { width: 10px; background-color: #e2e8f0; }
-::-webkit-scrollbar-thumb { background-color: #94a3b8; }
-
-
-/* -------------------------------------------------------------------------- */
-/* BGM 播放器样式 (悬浮在底部) */
-/* -------------------------------------------------------------------------- */
+/* 5. BGM 播放器基础悬浮样式 (简化版，确保不会报错) */
 #fixed-bgm-player {
     position: fixed; 
     bottom: 0;
     left: 50%;
     transform: translateX(-50%); 
     z-index: 1000; 
-    
-    max-width: 600px; 
+    background-color: #020617; 
     width: 90%; 
     padding: 10px;
-    background-color: #020617; 
-    border: 1px solid #334155;
-    border-bottom: none; 
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.9); 
-    text-align: center;
-}
-
-.bgm-title {
-    color: #4ade80; 
-    font-family: 'Consolas', monospace;
-    font-size: 1rem;
-    margin-bottom: 5px;
-    letter-spacing: 2px;
-    border-bottom: 1px dashed #334155;
-    padding-bottom: 5px;
-}
-
-.bgm-note {
-    font-size: 0.75rem;
-    color: #64748b;
-    margin-top: 5px;
-}
-
-.main-page-bgm-player iframe {
-    display: block; 
-    margin: 0 auto;
-    border: none;
-    height: 80px; 
-    width: 100% !important; 
 }
