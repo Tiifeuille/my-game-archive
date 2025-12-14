@@ -82,17 +82,37 @@ h1, h2, h3, .article-title {
     border-radius: 0 !important;
     background-color: #1e293b !important;
 }
-/* 调整正文字体大小 */
+/* =========================================
+   修正：针对首页列表卡片的字体 (你截图里的那部分)
+   ========================================= */
+.article-list--compact article .article-preview {
+    /* 直接给到 22px 左右，极大主义就是要大 */
+    font-size: 1.35rem !important; 
+    line-height: 1.8 !important;
+    /* 稍微加粗一点点，增加“油画般”的厚度感 */
+    font-weight: 400; 
+    /* 增加文字颜色不透明度，让字更亮更实 */
+    color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* 修正：首页卡片的标题 */
+.article-list--compact article .article-title {
+    font-size: 1.8rem !important; /* 标题也要同步加大 */
+    margin-bottom: 15px !important;
+}
+
+/* =========================================
+   修正：针对文章详情页正文 (点进去之后)
+   ========================================= */
 .article-content {
-    font-size: 1.25rem !important; /* 原版大概是1rem，这里加大到1.25倍 */
-    line-height: 1.8 !important;   /* 增加行高，让文字不那么挤 */
+    /* 删除了你原本代码中间重复定义的 section 6，统一在这里 */
+    font-family: var(--font-family-body);
+    font-size: 1.4rem !important; /* 正文阅读字号加大 */
+    line-height: 2.0 !important;   /* 行间距拉大，呼吸感 */
+    color: rgba(255, 255, 255, 0.9);
 }
 
-/* 调整摘要（首页列表）字体大小 */
-.article-list .article-title {
-    font-size: 1.5rem !important;
-}
-
-.article-list .article-preview {
-    font-size: 1.1rem !important;
+/* 修正：把文章里的段落间距也拉大，更有块面感 */
+.article-content p {
+    margin-bottom: 1.8em !important;
 }
