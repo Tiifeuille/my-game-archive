@@ -76,8 +76,19 @@ enabled = true
 
 ## Comments
 [comments]
-enabled = true
-provider = "disqus"
+    enabled = true
+    provider = "giscus"
+
+[comments.giscus]
+    repo = "leafwa/my-game-archive"  
+    repoID = "你可以先不填，报错了再去 giscus.app 生成"
+    category = "Announcements" 
+    categoryID = "" 
+    mapping = "pathname"
+    reactionsEnabled = 1
+    emitMetadata = 0
+    lightTheme = "light"
+    darkTheme = "dark_dimmed" 
 
 [comments.disqusjs]
 shortname = ""
