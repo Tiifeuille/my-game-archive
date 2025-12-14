@@ -136,3 +136,36 @@ body::after {
 /* 滚动条 */
 ::-webkit-scrollbar { width: 10px; background-color: #1e293b; }
 ::-webkit-scrollbar-thumb { background-color: #475569; }
+
+/* 主页背景音乐播放器样式 */
+.main-page-bgm-player {
+    margin: 40px auto 20px auto;
+    max-width: 600px; /* 限制宽度，避免过于突兀 */
+    padding: 10px;
+    background-color: #020617; /* 极深背景，强调冷峻感 */
+    border: 1px solid #334155;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* 深邃阴影 */
+    text-align: center;
+}
+
+.bgm-title {
+    color: #4ade80; /* 终端绿标题 */
+    font-family: 'Consolas', monospace;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+    border-bottom: 1px dashed #334155;
+    padding-bottom: 5px;
+}
+
+.bgm-note {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+/* 隐藏播放器边框，让它看起来更像一个模块 */
+.main-page-bgm-player iframe {
+    border: none;
+    height: 80px; /* 减小高度，只保留播放条 */
+}

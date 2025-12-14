@@ -1,0 +1,24 @@
+{{ if .IsNamedParams }}
+  {{ $videoID := .Get "video_id" }}
+  {{ $title := .Get "title" | default "嵌入式音乐播放器" }}
+
+  {{ if $videoID }}
+    <div class="music-player-container">
+      <h4 class="player-title">{{ $title }}</h4>
+      <iframe 
+        width="100%" 
+        height="315" 
+        src="https://www.youtube-nocookie.com/embed/{{ $videoID }}?rel=0" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen
+        title="{{ $title }}">
+      </iframe>
+      <p class="player-note">（Source: YouTube / YouTube Music）</p>
+    </div>
+  {{ else }}
+    <p style="color: red;">Error: ytmusic shortcode requires 'video_id' parameter.</p>
+  {{ end }}
+{{ else }}
+  <p style="color: red;">Error: ytmusic shortcode requires named parameters (e.g., {{</* ytmusic video_id="ID" */>}}).</p>
+{{ end }}
