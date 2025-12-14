@@ -137,7 +137,9 @@ body::after {
 ::-webkit-scrollbar { width: 10px; background-color: #1e293b; }
 ::-webkit-scrollbar-thumb { background-color: #475569; }
 
-/* 主页背景音乐播放器样式 - 悬浮在底部 */
+/* ==========================================================================
+   主页背景音乐播放器样式 (悬浮在底部)
+   ========================================================================== */
 #fixed-bgm-player {
     /* 核心修改：让播放器悬浮在屏幕底部 */
     position: fixed; 
@@ -146,18 +148,17 @@ body::after {
     transform: translateX(-50%); /* 居中 */
     z-index: 1000; /* 确保它在最上层 */
     
-    /* 外观样式保持不变 */
+    /* 外观样式 */
     max-width: 600px; 
-    width: 90%; /* 确保在小屏幕上也有宽度 */
+    width: 90%; 
     padding: 10px;
     background-color: #020617; 
     border: 1px solid #334155;
-    border-bottom: none; /* 底部可以不显示边框 */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.9); /* 更重的阴影 */
+    border-bottom: none; 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.9); 
     text-align: center;
 }
 
-/* 其他样式保持不变 */
 .bgm-title {
     color: #4ade80; /* 终端绿标题 */
     font-family: 'Consolas', monospace;
