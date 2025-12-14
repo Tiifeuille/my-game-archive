@@ -140,7 +140,7 @@ body::after {
 /* 主页背景音乐播放器样式 */
 .main-page-bgm-player {
     margin: 40px auto 20px auto;
-    max-width: 600px; /* 限制宽度，避免过于突兀 */
+    max-width: 600px; 
     padding: 10px;
     background-color: #020617; /* 极深背景，强调冷峻感 */
     border: 1px solid #334155;
@@ -164,8 +164,14 @@ body::after {
     margin-top: 5px;
 }
 
-/* 隐藏播放器边框，让它看起来更像一个模块 */
+/* 【修复点】强制 iframe 显示并居中，确保宽度和高度生效 */
 .main-page-bgm-player iframe {
+    /* 核心修复：确保它独占一行并应用宽度 */
+    display: block; 
+    margin: 0 auto;
+    
     border: none;
     height: 80px; /* 减小高度，只保留播放条 */
+    /* 强制宽度 100%，以确保它不会被主题样式清零 */
+    width: 100% !important; 
 }
