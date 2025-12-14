@@ -1,5 +1,5 @@
 ---
-title: "情报监控 / Twitter Monitor"
+title: "情报监控"
 slug: "monitor"
 description: "实时追踪目标对象的加密通讯信号。"
 image: "hoshino1.jpg"
@@ -106,7 +106,7 @@ fetchTweets();
 </script>
 
 <style>
-/* 这里写专门针对监控室的 CSS，保持你的深海工业风 */
+/* 这里写专门针对监控室的 CSS */
 #monitor-terminal {
     background: #0f172a;
     border: 1px solid #334155;
