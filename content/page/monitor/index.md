@@ -1,5 +1,5 @@
 ---
-title: "情报网 "
+title: "情报网"
 slug: "monitor"
 description: "接入全球游戏资讯加密数据流。"
 image: "hoshino1.jpg"
@@ -20,9 +20,7 @@ menu:
     <div id="system-log">
         > Initializing connection protocols...<br>
         > Bypassing region locks...<br>
-        > Accessing Gematsu mainframe... [SUCCESS]<br>
-        > Accessing Siliconera database... [SUCCESS]<br>
-        > Stream decrypted. Rendering feed...
+        > Accessing Gematsu mainframe... <span class="blink">_</span>
     </div>
 
     <div id="tweet-feed" class="feed-container">
@@ -32,33 +30,51 @@ menu:
 <script src="https://unpkg.com/rss-parser/dist/rss-parser.min.js"></script>
 
 <script>
-// ================= 情报源配置 (这里换成了超稳的新闻源) =================
+// ================= 情报源配置 =================
+// 这些是目前最稳定的 RSS 源，涵盖了主要的游戏新闻
 const sources = [
     { name: 'GEMATSU', url: 'https://gematsu.com/feed' },
     { name: 'SILICONERA', url: 'https://www.siliconera.com/feed/' },
     { name: 'EUROGAMER', url: 'https://www.eurogamer.net/?format=rss' }
 ];
-// ====================================================================
 
+// 使用 rss2json API 绕过跨域限制
 const convertToApi = (url) => {
-    return `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
+    // 加上 api_key 参数位是为了防止未来你需要填 key，现在留空即可
+    return `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`; 
 };
 
 async function fetchIntel() {
     const feedContainer = document.getElementById('tweet-feed');
+    const logContainer = document.getElementById('system-log');
     let allItems = [];
+    let logHtml = logContainer.innerHTML;
 
+    console.log("正在初始化情报链路..."); 
+
+    // 并行抓取数据
     const promises = sources.map(source => 
         fetch(convertToApi(source.url))
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Network response was not ok');
+                return res.json();
+            })
             .then(data => {
-                if(data.items) {
+                if(data.status === 'ok' && data.items) {
+                    console.log(`[${source.name}] 数据获取成功: ${data.items.length} 条`);
+                    // 在界面上实时更新日志
+                    logHtml += `> [${source.name}] CONNECTION ESTABLISHED.<br>`;
+                    logContainer.innerHTML = logHtml;
                     return data.items.map(item => ({...item, source: source.name}));
+                } else {
+                    console.warn(`[${source.name}] 接口返回错误:`, data);
+                    return [];
                 }
-                return [];
             })
             .catch(err => {
-                console.error(`源失效: ${source.name}`, err);
+                console.error(`[${source.name}] 链路连接失败:`, err);
+                logHtml += `<span style="color:#ef4444">> ERROR: ${source.name} CONNECTION LOST</span><br>`;
+                logContainer.innerHTML = logHtml;
                 return [];
             })
     );
@@ -66,28 +82,40 @@ async function fetchIntel() {
     const results = await Promise.all(promises);
     results.forEach(items => allItems = allItems.concat(items));
     
-    // 按时间倒序
-    allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-
-    // 只显示最新的 15 条情报，避免页面太长
-    const recentIntel = allItems.slice(0, 15);
-
-    if (recentIntel.length === 0) {
-        feedContainer.innerHTML = "<div class='error'>所有链路均已离线。</div>";
+    // 渲染逻辑
+    if (allItems.length === 0) {
+        feedContainer.innerHTML = `
+            <div class='intel-card' style='border-left-color: #ef4444'>
+                <div class='intel-body'>
+                    <div class='intel-title' style='color:#ef4444'>无法建立数据流连接</div>
+                    <div class='intel-desc'>
+                        SYSTEM ERROR: NO DATA RECEIVED.<br><br>
+                        可能原因：<br>
+                        1. 您的浏览器安装了广告拦截插件 (AdBlock)，拦截了 RSS 请求。<br>
+                        2. 免费 API 请求次数暂时超限，请一小时后再试。<br>
+                    </div>
+                </div>
+            </div>`;
         return;
     }
 
+    // 按时间倒序排序
+    allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+    
+    // 只取最新的 20 条，防止页面过长
+    const recentIntel = allItems.slice(0, 20);
+
     feedContainer.innerHTML = recentIntel.map(item => {
-        // 处理时间
         const date = new Date(item.pubDate);
-        const timeStr = date.toLocaleTimeString('en-US', { hour12: false }) + ' PST';
+        const timeStr = date.toLocaleTimeString('en-US', { hour12: false });
         
-        // 提取第一张图片作为缩略图 (如果有)
-        const imgMatch = item.content.match(/<img[^>]+src="([^">]+)"/);
-        const imgTag = imgMatch ? `<div class="intel-img-box"><img src="${imgMatch[1]}" class="intel-img"></div>` : '';
+        // 尝试提取图片
+        const content = item.content || item.description || "";
+        const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
+        const imgTag = imgMatch ? `<div class="intel-img-box"><img src="${imgMatch[1]}" class="intel-img" loading="lazy"></div>` : '';
 
         // 清理摘要里的 HTML 标签
-        let cleanDesc = item.description.replace(/<[^>]+>/g, '').substring(0, 120) + '...';
+        let cleanDesc = (item.description || "").replace(/<[^>]+>/g, '').substring(0, 100) + '...';
 
         return `
             <div class="intel-card">
@@ -106,17 +134,17 @@ async function fetchIntel() {
         `;
     }).join('');
     
-    // 隐藏系统日志
+    // 数据加载完 1.5 秒后，自动折叠系统日志
     setTimeout(() => {
-        document.getElementById('system-log').style.display = 'none';
+        logContainer.style.display = 'none';
     }, 1500);
 }
 
+// 启动程序
 fetchIntel();
 </script>
 
 <style>
-/* 工业风 CSS 2.0 */
 #monitor-terminal {
     background: #0b1120;
     border: 1px solid #334155;
@@ -124,6 +152,7 @@ fetchIntel();
     font-family: 'Consolas', 'Monaco', monospace;
     position: relative;
     overflow: hidden;
+    min-height: 400px;
 }
 
 /* 扫描线特效 */
@@ -157,6 +186,8 @@ fetchIntel();
     color: #64748b; font-size: 0.85rem; line-height: 1.5;
     margin-bottom: 20px; font-family: monospace;
 }
+.blink { animation: blink 1s infinite; }
+@keyframes blink { 0% {opacity:1} 50% {opacity:0} 100% {opacity:1} }
 
 /* 情报卡片 */
 .intel-card {
@@ -167,7 +198,7 @@ fetchIntel();
     transition: all 0.2s;
 }
 .intel-card:hover {
-    border-left-color: #fdba74; /* 悬停橙色 */
+    border-left-color: #fdba74; /* 悬停变橙色 */
     background: #253045;
     transform: translateX(5px);
 }
@@ -185,12 +216,12 @@ fetchIntel();
 .intel-title:hover { color: #4ade80; text-decoration: underline; }
 
 .intel-meta { display: flex; gap: 15px; }
-.intel-img-box { flex: 0 0 100px; height: 60px; overflow: hidden; border: 1px solid #475569; }
+.intel-img-box { flex: 0 0 100px; height: 60px; overflow: hidden; border: 1px solid #475569; background: #000;}
 .intel-img { width: 100%; height: 100%; object-fit: cover; }
-.intel-desc { font-size: 0.9rem; color: #cbd5e1; line-height: 1.4; }
+.intel-desc { font-size: 0.9rem; color: #cbd5e1; line-height: 1.4; word-break: break-word; }
 
 @media (max-width: 600px) {
     .intel-meta { flex-direction: column; }
-    .intel-img-box { flex: 0 0 auto; height: 120px; }
+    .intel-img-box { flex: 0 0 auto; height: 120px; width: 100%; }
 }
 </style>
