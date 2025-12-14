@@ -18,3 +18,37 @@ disqusShortname = "hugo-theme-stack"
 
 [pagination]
 pagerSize = 5
+
+# ==========================================================================
+# 菜单配置 (确保 Home 和其他所有链接正常显示)
+# ==========================================================================
+[menu]
+  [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    url = "/"
+    weight = 1 # 确保 Home 在第一个位置
+    
+  [[menu.main]]
+    identifier = "guestbook"
+    name = "留言板"
+    url = "/guestbook/"
+    weight = 10
+    
+  [[menu.main]]
+    identifier = "links"
+    name = "常用链接"
+    url = "/links/"
+    weight = 20
+    
+  [[menu.main]]
+    identifier = "archives"
+    name = "ARCHIVES"
+    url = "/archives/"
+    weight = 30
+    
+  [[menu.main]]
+    identifier = "search"
+    name = "SEARCH"
+    url = "/search/"
+    weight = 40
