@@ -1,30 +1,20 @@
-{{ with .IsNamedParams }}
-  {{ $videoID := $.Get "video_id" }}
-  {{ $title := $.Get "title" | default "嵌入式音乐播放器" }}
+{{/* ytmusic Shortcode 最终修复版 */}}
+{{ $videoID := $.Get "video_id" }}
+{{ $title := $.Get "title" | default "嵌入式音乐播放器" }}
 
-  {{ if $videoID }}
-    <div class="music-player-container">
-      <h4 class="player-title">{{ $title }}</h4>
-      <iframe 
-        width="100%" 
-        height="315" 
-        src="https://www.youtube-nocookie.com/embed/{{ $videoID }}?rel=0" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-        allowfullscreen
-        title="{{ $title }}">
-      </iframe>
-      <p class="player-note">（Source: YouTube / YouTube Music）</p>
-    </div>
-  {{ else }}
-    {{/* 如果缺少 video_id，显示纯文本错误提示 */}}
-    <div style="color: red; padding: 10px; border: 1px dashed red;">
-        Error: ytmusic shortcode requires 'video_id' parameter.
-    </div>
-  {{ end }}
-{{ else }}
-  {{/* 如果参数格式错误，显示纯文本错误提示 */}}
-  <div style="color: red; padding: 10px; border: 1px dashed red;">
-      Error: ytmusic shortcode requires named parameters (e.g., {{</* ytmusic video_id="ID" */>}}).
+{{ with $videoID }}
+  <div class="music-player-container">
+    <h4 class="player-title">{{ $title }}</h4>
+    {{ $iframeSrc := printf "https://www.youtube-nocookie.com/embed/%s?rel=0" . }}
+    
+    {{/* 注意：这里我们使用 safeHTML 来确保 iframe 被视为安全HTML输出 */}}
+    {{ $iframeCode := printf "<iframe width='100%%' height='315' src='%s' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='%s'></iframe>" $iframeSrc $title }}
+    
+    {{ $iframeCode | safeHTML }}
+
+    <p class="player-note">（Source: YouTube / YouTube Music）</p>
   </div>
+{{ else }}
+  {{/* 纯文本错误提示，确保不会有任何HTML冲突 */}}
+  [ERROR: ytmusic Shortcode Missing video_id]
 {{ end }}
