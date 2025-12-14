@@ -19,7 +19,7 @@ subtitle = "Tiffany的各类私货存档点"
 [sidebar.avatar]
 enabled = true
 local = true
-src = "img/avatar.png"
+src = "hoshino1.png"
 
 [article]
 headingAnchor = false
@@ -108,7 +108,7 @@ autoCreateIssue = false
 serverURL = ""
 lang = ""
 visitor = ""
-avatar = ""
+avatar =""
 emoji = ["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"]
 requiredMeta = ["name", "email", "url"]
 placeholder = ""
