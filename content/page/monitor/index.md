@@ -3,6 +3,7 @@ title: "情报网"
 slug: "monitor"
 description: "接入全球游戏资讯加密数据流。"
 image: "hoshino1.jpg"
+toc: false
 menu:
     main:
         weight: -15
@@ -23,125 +24,115 @@ menu:
         > Accessing Gematsu mainframe... <span class="blink">_</span>
     </div>
 
-    <div id="tweet-feed" class="feed-container">
-        </div>
+    <div id="tweet-feed" class="feed-container"></div>
 </div>
 
 <script src="https://unpkg.com/rss-parser/dist/rss-parser.min.js"></script>
 
 <script>
-// ================= 情报源配置 =================
-// 这些是目前最稳定的 RSS 源，涵盖了主要的游戏新闻
-const sources = [
-    { name: 'GEMATSU', url: 'https://gematsu.com/feed' },
-    { name: 'SILICONERA', url: 'https://www.siliconera.com/feed/' },
-    { name: 'EUROGAMER', url: 'https://www.eurogamer.net/?format=rss' }
-];
+document.addEventListener("DOMContentLoaded", function() {
+    // ================= 情报源配置 =================
+    const sources = [
+        { name: 'GEMATSU', url: 'https://gematsu.com/feed' },
+        { name: 'SILICONERA', url: 'https://www.siliconera.com/feed/' },
+        { name: 'EUROGAMER', url: 'https://www.eurogamer.net/?format=rss' }
+    ];
 
-// 使用 rss2json API 绕过跨域限制
-const convertToApi = (url) => {
-    // 加上 api_key 参数位是为了防止未来你需要填 key，现在留空即可
-    return `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`; 
-};
+    const convertToApi = (url) => {
+        return `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`; 
+    };
 
-async function fetchIntel() {
-    const feedContainer = document.getElementById('tweet-feed');
-    const logContainer = document.getElementById('system-log');
-    let allItems = [];
-    let logHtml = logContainer.innerHTML;
+    async function fetchIntel() {
+        const feedContainer = document.getElementById('tweet-feed');
+        const logContainer = document.getElementById('system-log');
+        
+        // 安全检查：防止页面还没画好脚本就跑了
+        if (!feedContainer || !logContainer) return;
 
-    console.log("正在初始化情报链路..."); 
+        let allItems = [];
+        let logHtml = logContainer.innerHTML;
 
-    // 并行抓取数据
-    const promises = sources.map(source => 
-        fetch(convertToApi(source.url))
-            .then(res => {
-                if (!res.ok) throw new Error('Network response was not ok');
-                return res.json();
-            })
-            .then(data => {
-                if(data.status === 'ok' && data.items) {
-                    console.log(`[${source.name}] 数据获取成功: ${data.items.length} 条`);
-                    // 在界面上实时更新日志
-                    logHtml += `> [${source.name}] CONNECTION ESTABLISHED.<br>`;
+        console.log("正在初始化情报链路..."); 
+
+        const promises = sources.map(source => 
+            fetch(convertToApi(source.url))
+                .then(res => {
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    return res.json();
+                })
+                .then(data => {
+                    if(data.status === 'ok' && data.items) {
+                        logHtml += `> [${source.name}] CONNECTION ESTABLISHED.<br>`;
+                        logContainer.innerHTML = logHtml;
+                        return data.items.map(item => ({...item, source: source.name}));
+                    } else {
+                        return [];
+                    }
+                })
+                .catch(err => {
+                    console.error(`[${source.name}] 链接失败:`, err);
+                    logHtml += `<span style="color:#ef4444">> ERROR: ${source.name} CONNECTION LOST</span><br>`;
                     logContainer.innerHTML = logHtml;
-                    return data.items.map(item => ({...item, source: source.name}));
-                } else {
-                    console.warn(`[${source.name}] 接口返回错误:`, data);
                     return [];
-                }
-            })
-            .catch(err => {
-                console.error(`[${source.name}] 链路连接失败:`, err);
-                logHtml += `<span style="color:#ef4444">> ERROR: ${source.name} CONNECTION LOST</span><br>`;
-                logContainer.innerHTML = logHtml;
-                return [];
-            })
-    );
+                })
+        );
 
-    const results = await Promise.all(promises);
-    results.forEach(items => allItems = allItems.concat(items));
-    
-    // 渲染逻辑
-    if (allItems.length === 0) {
-        feedContainer.innerHTML = `
-            <div class='intel-card' style='border-left-color: #ef4444'>
-                <div class='intel-body'>
-                    <div class='intel-title' style='color:#ef4444'>无法建立数据流连接</div>
-                    <div class='intel-desc'>
-                        SYSTEM ERROR: NO DATA RECEIVED.<br><br>
-                        可能原因：<br>
-                        1. 您的浏览器安装了广告拦截插件 (AdBlock)，拦截了 RSS 请求。<br>
-                        2. 免费 API 请求次数暂时超限，请一小时后再试。<br>
+        const results = await Promise.all(promises);
+        results.forEach(items => allItems = allItems.concat(items));
+        
+        // 如果没有抓到任何数据
+        if (allItems.length === 0) {
+            feedContainer.innerHTML = `
+                <div class='intel-card' style='border-left-color: #ef4444'>
+                    <div class='intel-body'>
+                        <div class='intel-title' style='color:#ef4444'>无法建立数据流连接</div>
+                        <div class='intel-desc'>
+                            SYSTEM ERROR: NO DATA RECEIVED.<br>
+                            请检查浏览器是否开启了广告拦截 (AdBlock)，或者等待 API 配额重置。
+                        </div>
+                    </div>
+                </div>`;
+            // 也要隐藏日志，不然卡住很难看
+            setTimeout(() => { logContainer.style.display = 'none'; }, 2000);
+            return;
+        }
+
+        // 排序与截取
+        allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+        const recentIntel = allItems.slice(0, 20);
+
+        // 渲染
+        feedContainer.innerHTML = recentIntel.map(item => {
+            const date = new Date(item.pubDate);
+            const timeStr = date.toLocaleTimeString('en-US', { hour12: false });
+            
+            const content = item.content || item.description || "";
+            const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
+            const imgTag = imgMatch ? `<div class="intel-img-box"><img src="${imgMatch[1]}" class="intel-img" loading="lazy"></div>` : '';
+            let cleanDesc = (item.description || "").replace(/<[^>]+>/g, '').substring(0, 100) + '...';
+
+            return `
+                <div class="intel-card">
+                    <div class="intel-header">
+                        <span class="source-tag">[${item.source}]</span>
+                        <span class="time-tag">${timeStr}</span>
+                    </div>
+                    <div class="intel-body">
+                        <a href="${item.link}" target="_blank" class="intel-title">${item.title}</a>
+                        <div class="intel-meta">${imgTag}<div class="intel-desc">${cleanDesc}</div></div>
                     </div>
                 </div>
-            </div>`;
-        return;
+            `;
+        }).join('');
+        
+        // 1.5秒后隐藏启动日志
+        setTimeout(() => {
+            logContainer.style.display = 'none';
+        }, 1500);
     }
 
-    // 按时间倒序排序
-    allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-    
-    // 只取最新的 20 条，防止页面过长
-    const recentIntel = allItems.slice(0, 20);
-
-    feedContainer.innerHTML = recentIntel.map(item => {
-        const date = new Date(item.pubDate);
-        const timeStr = date.toLocaleTimeString('en-US', { hour12: false });
-        
-        // 尝试提取图片
-        const content = item.content || item.description || "";
-        const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
-        const imgTag = imgMatch ? `<div class="intel-img-box"><img src="${imgMatch[1]}" class="intel-img" loading="lazy"></div>` : '';
-
-        // 清理摘要里的 HTML 标签
-        let cleanDesc = (item.description || "").replace(/<[^>]+>/g, '').substring(0, 100) + '...';
-
-        return `
-            <div class="intel-card">
-                <div class="intel-header">
-                    <span class="source-tag">[${item.source}]</span>
-                    <span class="time-tag">${timeStr}</span>
-                </div>
-                <div class="intel-body">
-                    <a href="${item.link}" target="_blank" class="intel-title">${item.title}</a>
-                    <div class="intel-meta">
-                        ${imgTag}
-                        <div class="intel-desc">${cleanDesc}</div>
-                    </div>
-                </div>
-            </div>
-        `;
-    }).join('');
-    
-    // 数据加载完 1.5 秒后，自动折叠系统日志
-    setTimeout(() => {
-        logContainer.style.display = 'none';
-    }, 1500);
-}
-
-// 启动程序
-fetchIntel();
+    fetchIntel();
+});
 </script>
 
 <style>
@@ -155,7 +146,6 @@ fetchIntel();
     min-height: 400px;
 }
 
-/* 扫描线特效 */
 .monitor-header {
     border-bottom: 2px solid #334155;
     padding-bottom: 10px;
@@ -189,7 +179,6 @@ fetchIntel();
 .blink { animation: blink 1s infinite; }
 @keyframes blink { 0% {opacity:1} 50% {opacity:0} 100% {opacity:1} }
 
-/* 情报卡片 */
 .intel-card {
     background: #1e293b;
     border-left: 3px solid #475569;
@@ -198,7 +187,7 @@ fetchIntel();
     transition: all 0.2s;
 }
 .intel-card:hover {
-    border-left-color: #fdba74; /* 悬停变橙色 */
+    border-left-color: #fdba74;
     background: #253045;
     transform: translateX(5px);
 }
