@@ -1,18 +1,12 @@
-# 请把 username 换成你的 GitHub 用户名
-# 请把 repo-name 换成你的仓库名 (比如 my-game-archive)
 baseURL = "https://Tiifeuille.github.io/my-game-archive/"
 languageCode = "en-us"
 title = "亵欲纳间"
 
-# Theme i18n support
-# Available values: en, fr, id, ja, ko, pt-br, zh-cn, zh-tw, es, de, nl, it, th, el, uk, ar
-defaultContentLanguage = "en"
+timeout = "120s"
 
-# Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]
-# This will make .Summary and .WordCount behave correctly for CJK languages.
-hasCJKLanguage = false
+defaultContentLanguage = "zh-cn"
+hasCJKLanguage = true
 
-# Change it to your Disqus shortname before using
 disqusShortname = "hugo-theme-stack"
 
 [pagination]
