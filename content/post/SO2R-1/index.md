@@ -4,7 +4,7 @@ title: "【前篇】星之海洋2 The Second Story R 开发者访谈"
 
 description: "https://cgworld.jp/article/202404-so2r-1.html"
 
-date: 2024-4-9
+date: 2024-04-09
 
 slug: "SO2R-1"
 
