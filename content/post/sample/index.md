@@ -1,14 +1,16 @@
 ---
+#powershell输入 hugo server -D 查看
 title: "创建新文章示例"
 description: "文章描述文章描述文章描述文章描述"
 date: 2025-12-15
-slug: "post-sample" #全小写，用-连结。
-image: "cover.webp"  #建议统一使用cover.webp
+slug: "post-sample" #全小写，用-连结。slug应准确对应文章内容。elden-ring-review ✅ hoshino-elden-ring-review ✅ elden-ring-dlc ❌ dawn-666 ❌
+image: "cover.webp" #建议统一使用cover.webp
 categories:
     - "教程"
 tags:
     - "教程"
 weight: 0
+#draft: true
 ---
 
 ## 文章主体 <!--标题不要加序号，例如 1.文章主体-->
