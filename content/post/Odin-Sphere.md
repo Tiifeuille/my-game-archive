@@ -808,3 +808,9 @@ weight: 0
 (C)SEGA & ATLUS 1997, 2005
 （C）ATLUS（C）SEGA All rights reserved.
 （C）ATLUS（C）SEGA All rights reserved.
+
+本文仅作历史档案保存和学习交流，非商业用途。
+
+原文版权归 [SEGA] 所有
+
+如有侵权请联系我（1599267983@qq.com），我会立即删除。
