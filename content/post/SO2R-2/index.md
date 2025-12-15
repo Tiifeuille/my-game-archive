@@ -128,7 +128,6 @@ weight: 0
 ![▲人工惑星エナジーネーデのセントラルシティが位置する大陸の【上左】ベースと【上右】完成形。【下】ベースの上に、自然地形やシティのシンボルを乗せている。このつくり方には、後からの変更が容易、使用アセット数を削減できるなどのメリットがあった](38.png)
 
 ![ ](39.png)
-
 ![ ](61.png)
 
 ![ ](40.png)
@@ -183,3 +182,4 @@ Game Copyright / ゲーム権利表記: © 1998, 2023 SQUARE ENIX Original versi
 Archive Disclaimer: 本ページは、歴史的資料としてアーカイブ保存しているものです。営利目的ではありません。 This article is archived for non-commercial, educational, and preservation purposes only. 本文仅作历史档案保存和学习交流，非商业用途。
 
 Contact: 如有侵权请联系我1599267983@qq.com，我会立即删除。
+
