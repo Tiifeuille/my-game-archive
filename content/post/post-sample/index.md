@@ -15,6 +15,8 @@ weight: 0
 
 ## 文章主体 <!--标题不要加序号，例如 1.文章主体-->
 
+来源：httpxxxxxxxxxxxxxx.com
+
 内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容
 
 ## 使用列表
@@ -44,3 +46,18 @@ weight: 0
 ## 插入视频
 
 {{< bilibili BV1aSmiBrEDa >}}
+
+**Article Copyright / 記事著作権:**
+© Aetas, Inc. / 4Gamer.net
+
+**Game Copyright / ゲーム権利表記:**
+© ATLUS © SEGA All rights reserved.
+(Original version developed by Vanillaware)
+
+**Archive Disclaimer:**
+本ページは、歴史的資料としてアーカイブ保存しているものです。営利目的ではありません。
+This article is archived for non-commercial, educational, and preservation purposes only.
+本文仅作历史档案保存和学习交流，非商业用途。
+
+**Contact:**
+如有侵权请联系我`1599267983@qq.com`，我会立即删除。

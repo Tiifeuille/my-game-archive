@@ -802,17 +802,17 @@ weight: 0
 
 ――2016年1月7日収録
 
-(C)ATLUS CO.,LTD.2007 ALL RIGHTS RESERVED.
-（C）ATLUS（C）SEGA All rights reserved.
-（C）ATLUS（C）SEGA All rights reserved.
-(C)2009Marvelous Entertainment Inc.
-(C)2009,2013 MarvelousAQL Inc.
-(C)SEGA & ATLUS 1997, 2005
-（C）ATLUS（C）SEGA All rights reserved.
-（C）ATLUS（C）SEGA All rights reserved.
+**Article Copyright / 記事著作権:**
+© Aetas, Inc. / 4Gamer.net
 
+**Game Copyright / ゲーム権利表記:**
+© ATLUS © SEGA All rights reserved.
+(Original version developed by Vanillaware)
+
+**Archive Disclaimer:**
+本ページは、歴史的資料としてアーカイブ保存しているものです。営利目的ではありません。
+This article is archived for non-commercial, educational, and preservation purposes only.
 本文仅作历史档案保存和学习交流，非商业用途。
 
-原文版权归 [SEGA] 所有
-
-如有侵权请联系我（1599267983@qq.com），我会立即删除。
+**Contact:**
+如有侵权请联系我`1599267983@qq.com`，我会立即删除。
