@@ -19,7 +19,7 @@ links:
 
 menu:
     main: 
-        weight: -10
+        weight: 2
         params:
             icon: link # 图标
 ---
