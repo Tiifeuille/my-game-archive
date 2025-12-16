@@ -7,7 +7,7 @@ description: "Planescape: Torment"
 date: 2025-12-16
 slug: "PT-1"
 
-image: "PT.png"
+image: "PT-1.png"
 
 categories:
     - "text"
@@ -801,4 +801,5 @@ DMebbeth
 她屏息轻轻说了些什么，然后用手捧着你的脸，在你的前额上亲了一下。当她的嘴唇碰到你的皮肤时，你闭上眼睛…
 
 「但愿诸界仁慈地接受你的灵魂，马贝丝。」
+
 
