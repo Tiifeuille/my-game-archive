@@ -1,121 +1,22 @@
-/* ==========================================================================
-   1. 字体引入
-   ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&display=swap');
-
-:root {
-    --base-font-size: 17px;
-    --font-family-body: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
-}
-
-/* ==========================================================================
-   2. 全局背景与基础颜色 (强制深色工业风)
-   ========================================================================== */
 body {
-    background-color: #0f172a !important; /* 深海蓝 */
-    color: #cbd5e1 !important;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  background-color: var(--body-background);
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.06) 0,
+      rgba(0, 0, 0, 0.06) 1px,
+      transparent 1px,
+      transparent 3px
+    );
 }
 
-/* ==========================================================================
-   3. 核心卡片样式 (关键：同时覆盖首页和归档页)
-   ========================================================================== */
-/* .article-list--default article 就是控制归档页列表的 */
-.article-list--compact article,
-.article-list--default article, 
-.archive-list article { 
-    background-color: #1e293b !important;
-    border: 1px solid #334155 !important;
-    border-radius: 0 !important;
-    box-shadow: 6px 6px 0px #000000 !important; /* 强制硬阴影 */
-    margin-bottom: 30px !important;
-    padding: 25px !important;
-    transition: transform 0.2s ease;
+html[data-theme="dark"] body {
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.07) 0,
+      rgba(255, 255, 255, 0.07) 1px,
+      transparent 1px,
+      transparent 3px
+    );
 }
-
-.article-list--compact article:hover,
-.article-list--default article:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 8px 8px 0px #000000 !important;
-}
-
-/* 标题通用加大 */
-.article-title, 
-.archive-list .article-title {
-    font-size: 4rem !important;
-    font-weight: 700 !important;
-    margin-bottom: 15px !important;
-    font-family: var(--font-family-body);
-    color: #f1f5f9 !important;
-}
-
-/* 归档页的时间显示优化 */
-.article-date {
-    font-family: 'Cinzel', serif !important;
-    color: #94a3b8 !important;
-    font-size: 1rem !important;
-}
-
-/* ==========================================================================
-   4. 侧边栏 (修复显示问题)
-   ========================================================================== */
-.sidebar {
-    background-color: #020617 !important;
-    border-right: 1px solid #1e293b;
-    z-index: 1000;
-}
-
-.sidebar .menu li a {
-    font-family: 'Cinzel', serif !important;
-    font-size: 1.4rem !important;
-    font-weight: 700 !important;
-    color: #94a3b8 !important;
-    text-shadow: 0 0 5px rgba(0,0,0,0.5);
-    transition: all 0.3s ease;
-}
-
-.sidebar .menu li a:hover {
-    color: #fdba74 !important;
-    text-shadow: 0 0 10px #fdba74, 0 0 20px #c2410c;
-    padding-left: 10px;
-}
-/* 隐藏底部的 Dark Mode 切换开关，强制保持深色 */
-.sidebar-footer {
-    display: none !important;
-}
-
-/* ==========================================================================
-   5. 氛围特效 (暗角 + 篝火)
-   ========================================================================== */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    background: radial-gradient(circle at center, transparent 30%, #000000 100%);
-    pointer-events: none;
-    z-index: 900;
-    opacity: 0.6;
-}
-
-@keyframes bonfire-glow {
-    0%   { opacity: 0.3; transform: scaleY(1); }
-    50%  { opacity: 0.5; transform: scaleY(1.1); }
-    100% { opacity: 0.3; transform: scaleY(1); }
-}
-
-body::after {
-    content: "";
-    position: fixed;
-    bottom: 0; left: 0; width: 100vw; height: 40vh;
-    background: linear-gradient(to top, rgba(255, 80, 0, 0.4) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 901;
-    animation: bonfire-glow 5s infinite ease-in-out;
-    mix-blend-mode: screen;
-}
-
-/* 滚动条 */
-::-webkit-scrollbar { width: 10px; background-color: #0f172a; }
-::-webkit-scrollbar-thumb { background-color: #475569; border: 1px solid #1e293b; }
-::-webkit-scrollbar-thumb:hover { background-color: #fdba74; }
